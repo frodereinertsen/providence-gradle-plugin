@@ -1,5 +1,5 @@
-group 'net.morimekta.providence'
-version '0.2.3-SNAPSHOT'
+group 'net.morimekta.providence.gradle'
+version '0.3.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -18,7 +18,7 @@ dependencies {
     compile 'net.morimekta.providence:providence-reflect:' + providence_version
     compile 'net.morimekta.providence:providence-generator-java:' + providence_version
 
-    testCompile 'junit:junit:4.11'
+    testCompile 'junit:junit:4.12'
 }
 
 task wrapper(type: Wrapper) {
