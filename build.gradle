@@ -1,5 +1,7 @@
 group 'net.morimekta.providence.gradle'
 
+// Keep the version at the last *deployed* providence version, and use the
+// -PprovidenceVersion=... if a different version should be built for.
 version '0.3.0'
 if (project.hasProperty('providenceVersion')) {
     version = project.providenceVersion
@@ -22,7 +24,7 @@ buildscript {
         }
 
         dependencies {
-            classpath "com.gradle.publish:plugin-publish-plugin:0.9.1"
+            classpath "com.gradle.publish:plugin-publish-plugin:0.9.7"
         }
     }
 }
@@ -54,7 +56,7 @@ task createApplicationProperties {
 
     doLast {
         outputDir.mkdirs()
-        file("$outputDir/application.properties").text = "providence.version=${version}\n"
+        file("$outputDir/application.properties").text = "providence.version=${providence_version}\n"
     }
 }
 
@@ -71,6 +73,20 @@ jar {
                     "Build-Date":                   new SimpleDateFormat("yyyy-MM-dd").format(new Date()),
                     "Build-Gradle":                 project.gradle.gradleVersion
                    )
+    }
+}
+
+pluginBundle {
+    website = 'http://www.morimekta.net/providence'
+    vcsUrl = 'https://github.com/morimekta/providence'
+    description = 'Providence model generator plugin for gradle.'
+    tags = ['providence', 'thrift']
+
+    plugins {
+        providence {
+            id = 'net.morimekta.providence.gradle'
+            displayName = 'Providence Gradle Plugin'
+        }
     }
 }
 
