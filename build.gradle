@@ -51,7 +51,6 @@ task createClasspathManifest {
 task createApplicationProperties {
     def outputDir = file("$buildDir/$name")
 
-    inputs.files sourceSets.main.runtimeClasspath
     outputs.dir outputDir
 
     doLast {
