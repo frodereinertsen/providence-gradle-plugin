@@ -35,11 +35,18 @@ class GenerateProvidenceTaskTest {
 
     private File buildFile
     private List<File> pluginClasspath
-
-    private static final String VERSION = '0.3.0'
+    private String providence_version
 
     @Before
     void setUp() {
+        def appResource = getClass().classLoader.getResourceAsStream("application.properties")
+        if (appResource == null) {
+            throw new IllegalStateException("Did not find application properties.")
+        }
+        Properties properties = new Properties()
+        properties.load(appResource)
+        providence_version = properties.getProperty('providence.version')
+
         buildFile = tmp.newFile('build.gradle')
 
         def pluginClasspathResource = getClass().classLoader.getResource("plugin-classpath.txt")
@@ -64,7 +71,7 @@ repositories {
 }
 
 dependencies {
-    compile 'net.morimekta.providence:providence-core:${VERSION}'
+    compile 'net.morimekta.providence:providence-core:${providence_version}'
 }
 """
         def pvd = tmp.newFolder('src', 'main', 'providence')
@@ -111,7 +118,7 @@ repositories {
 
 dependencies {
     compile 'net.morimekta.utils:android-util:0.3.11'
-    compile 'net.morimekta.providence:providence-core:${VERSION}'
+    compile 'net.morimekta.providence:providence-core:${providence_version}'
 }
 
 providence {
@@ -166,7 +173,7 @@ repositories {
 }
 
 dependencies {
-    testCompile 'net.morimekta.providence:providence-core:${VERSION}'
+    testCompile 'net.morimekta.providence:providence-core:${providence_version}'
     testCompile 'junit:junit:4.12'
 }
 """

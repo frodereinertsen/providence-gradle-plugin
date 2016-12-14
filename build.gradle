@@ -1,5 +1,9 @@
 group 'net.morimekta.providence.gradle'
+
 version '0.3.0'
+if (project.hasProperty('providenceVersion')) {
+    version = project.providenceVersion
+}
 
 repositories {
     mavenLocal()
@@ -42,16 +46,28 @@ task createClasspathManifest {
     }
 }
 
+task createApplicationProperties {
+    def outputDir = file("$buildDir/$name")
+
+    inputs.files sourceSets.main.runtimeClasspath
+    outputs.dir outputDir
+
+    doLast {
+        outputDir.mkdirs()
+        file("$outputDir/application.properties").text = "providence.version=${version}\n"
+    }
+}
+
 import java.text.SimpleDateFormat
 
 jar {
     manifest {
         attributes( "Implementation-Title":         rootProject.name,
                     "Implementation-Version":       version,
-                    "Implementation-Vendor":        "Genoscope, LABGeM",
-                    "Implementation-Class":         "org.hibernate.gradle.tools.HibernatePlugin",
-                    "description":                  "Hibernate tools plugin to reverse engineering database.",
-                    "Main-Class":                   "org.hibernate.gradle.tools.HibernatePlugin",
+                    "Implementation-Vendor":        "morimekta.net/providence",
+                    "Implementation-Class":         "net.morimekta.providence.gradle.ProvidencePlugin",
+                    "description":                  "Providence model generator plugin for gradle.",
+                    "Main-Class":                   "net.morimekta.providence.gradle.ProvidencePlugin",
                     "Build-Date":                   new SimpleDateFormat("yyyy-MM-dd").format(new Date()),
                     "Build-Gradle":                 project.gradle.gradleVersion
                    )
@@ -71,6 +87,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     testRuntime files(createClasspathManifest)
+    testRuntime files(createApplicationProperties)
 }
 
 task wrapper(type: Wrapper) {
