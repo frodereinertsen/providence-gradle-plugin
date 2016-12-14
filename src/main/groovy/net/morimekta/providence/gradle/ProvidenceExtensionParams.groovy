@@ -19,29 +19,26 @@
  * under the License.
  */
 package net.morimekta.providence.gradle
+
+import org.gradle.api.file.FileTree
+
 /**
  * Plugin definition for the providence gradle plugin.
  *
  * providence {
- *     include {
- *         dir('idl')
- *     }
- *     input {
- *         files('src/main/providence/*.thrift')
+ *     main {
+ *         include {
+ *             dir('idl')
+ *         }
+ *         input {
+ *             files('src/main/providence/*.thrift')
+ *         }
  *     }
  * }
  */
-class ProvidenceExtension {
-    ProvidenceExtensionParams main = new ProvidenceExtensionParams()
-    ProvidenceExtensionParams test = new ProvidenceExtensionParams()
-
-    void main(Closure<ProvidenceExtensionParams> ext) {
-        ext.delegate = main
-        ext.run()
-    }
-
-    void test(Closure<ProvidenceExtensionParams> ext) {
-        ext.delegate = test
-        ext.run()
-    }
+class ProvidenceExtensionParams {
+    FileTree include   = null
+    FileTree input     = null
+    boolean  android   = false
+    boolean  jackson   = false
 }

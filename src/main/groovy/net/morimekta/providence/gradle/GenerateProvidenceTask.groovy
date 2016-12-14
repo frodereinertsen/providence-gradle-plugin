@@ -19,29 +19,21 @@
  * under the License.
  */
 package net.morimekta.providence.gradle
+
 /**
  * Plugin definition for the providence gradle plugin.
- *
- * providence {
- *     include {
- *         dir('idl')
- *     }
- *     input {
- *         files('src/main/providence/*.thrift')
- *     }
- * }
  */
-class ProvidenceExtension {
-    ProvidenceExtensionParams main = new ProvidenceExtensionParams()
-    ProvidenceExtensionParams test = new ProvidenceExtensionParams()
+class GenerateProvidenceTask extends BaseGenerateProvidenceTask {
+    GenerateProvidenceTask() {
+        super(false)
 
-    void main(Closure<ProvidenceExtensionParams> ext) {
-        ext.delegate = main
-        ext.run()
+        _defaultInput = project.fileTree("src/main/providence")
+        _defaultInput.include '**/*.thrift'
+        outputs.dir "${project.buildDir.name}/generated-sources/providence"
     }
 
-    void test(Closure<ProvidenceExtensionParams> ext) {
-        ext.delegate = test
-        ext.run()
+    @Override
+    protected ProvidenceExtensionParams getExtension() {
+        return ((ProvidenceExtension) project.extensions.getByName('providence')).main
     }
 }

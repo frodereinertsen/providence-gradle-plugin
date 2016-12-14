@@ -18,30 +18,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package net.morimekta.providence.gradle
+
+import net.morimekta.providence.generator.util.FileManager
+import org.gradle.api.Project
+import org.gradle.api.tasks.SourceSet
+import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.api.tasks.TaskOutputs
+
 /**
- * Plugin definition for the providence gradle plugin.
- *
- * providence {
- *     include {
- *         dir('idl')
- *     }
- *     input {
- *         files('src/main/providence/*.thrift')
- *     }
- * }
+ * ...
  */
-class ProvidenceExtension {
-    ProvidenceExtensionParams main = new ProvidenceExtensionParams()
-    ProvidenceExtensionParams test = new ProvidenceExtensionParams()
-
-    void main(Closure<ProvidenceExtensionParams> ext) {
-        ext.delegate = main
-        ext.run()
-    }
-
-    void test(Closure<ProvidenceExtensionParams> ext) {
-        ext.delegate = test
-        ext.run()
+class GradleOutputFileManager extends FileManager {
+    GradleOutputFileManager(Project project, TaskOutputs outputs, boolean testing) {
+        super(new File(outputs.files.asPath))
+        SourceSetContainer sourceSets = (SourceSetContainer) project.properties.get('sourceSets')
+        SourceSet sourceSet = sourceSets.getByName('main')
+        if (testing) {
+            sourceSet = sourceSets.getByName('test')
+        }
+        sourceSet.allJava.srcDir(outputs.files.asPath)
+        sourceSet.java.srcDir(outputs.files.asPath)
     }
 }
