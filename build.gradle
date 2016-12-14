@@ -69,7 +69,6 @@ jar {
                     "Implementation-Vendor":        "morimekta.net/providence",
                     "Implementation-Class":         "net.morimekta.providence.gradle.ProvidencePlugin",
                     "description":                  "Providence model generator plugin for gradle.",
-                    "Main-Class":                   "net.morimekta.providence.gradle.ProvidencePlugin",
                     "Build-Date":                   new SimpleDateFormat("yyyy-MM-dd").format(new Date()),
                     "Build-Gradle":                 project.gradle.gradleVersion
                    )
@@ -78,9 +77,9 @@ jar {
 
 pluginBundle {
     website = 'http://www.morimekta.net/providence'
-    vcsUrl = 'https://github.com/morimekta/providence'
+    vcsUrl = 'https://github.com/morimekta/providence-gradle-plugin'
     description = 'Providence model generator plugin for gradle.'
-    tags = ['providence', 'thrift']
+    tags = ['providence', 'thrift', 'serialization']
 
     plugins {
         providence {
