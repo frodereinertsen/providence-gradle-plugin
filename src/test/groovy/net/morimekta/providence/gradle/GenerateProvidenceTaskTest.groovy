@@ -1,3 +1,4 @@
+package net.morimekta.providence.gradle
 /*
  * Copyright (c) 2016, Stein Eldar Johnsen
  *
@@ -41,7 +42,7 @@ class GenerateProvidenceTaskTest {
     void setUp() {
         buildFile = tmp.newFile('build.gradle')
 
-        def pluginClasspathResource = getClass().classLoader.findResource("plugin-classpath.txt")
+        def pluginClasspathResource = getClass().classLoader.getResource("plugin-classpath.txt")
         if (pluginClasspathResource == null) {
             throw new IllegalStateException("Did not find plugin classpath resource, run `testClasses` build task.")
         }
@@ -148,5 +149,59 @@ public class Test {
 
         assertEquals(result.task(':generateProvidence').getOutcome(), TaskOutcome.SUCCESS)
         assertEquals(result.task(':compileJava').getOutcome(), TaskOutcome.SUCCESS)
+    }
+
+
+    @Test
+    void testGenerateTestProvidence() {
+        buildFile << """
+plugins {
+    id 'org.gradle.java'
+    id 'net.morimekta.providence.gradle'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'net.morimekta.providence:providence-core:${VERSION}'
+    testCompile 'junit:junit:4.12'
+}
+"""
+        def pvd = tmp.newFolder('src', 'test', 'providence')
+        new File(pvd, 'test.thrift') << """
+namespace java net.morimekta.test.groovy
+
+struct NeededMessage {
+    1: i32 a_grip;
+}
+"""
+        def src = tmp.newFolder('src', 'test', 'java')
+        new File(src, 'MessageTest.java') << """
+import net.morimekta.test.groovy.NeededMessage;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
+public class MessageTest {
+    @Test
+    public void testMessage() {
+        NeededMessage message = NeededMessage.builder().setAGrip(42).build();
+        assertEquals(42, message.getAGrip());
+    }
+}
+"""
+
+        BuildResult result = GradleRunner.create()
+                .withProjectDir(tmp.root)
+                .withArguments('test', '--stacktrace')
+                .withPluginClasspath(pluginClasspath)
+                .build()
+
+        assertEquals(result.task(':generateTestProvidence').getOutcome(), TaskOutcome.SUCCESS)
+        assertEquals(result.task(':compileTestJava').getOutcome(), TaskOutcome.SUCCESS)
+        assertEquals(result.task(':test').getOutcome(), TaskOutcome.SUCCESS)
     }
 }
