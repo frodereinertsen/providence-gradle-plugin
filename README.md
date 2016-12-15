@@ -16,7 +16,7 @@ plugins {
 }
 
 apply plugin: 'java'
-apply plugin: 'net.morimekta.providence'
+apply plugin: 'net.morimekta.providence.gradle'
 
 // etc...
 dependencies {
