@@ -23,16 +23,16 @@ package net.morimekta.providence.gradle
 import org.gradle.api.file.FileTree
 
 /**
- * Plugin definition for the providence gradle plugin.
+ * Plugin definition for a specific task for the providence gradle plugin.
  *
  * providence {
  *     main {
- *         include {
- *             dir('idl')
+ *         input = fileTree('src/main/android') {
+ *             include '*.thrift'
  *         }
- *         input {
- *             files('src/main/providence/*.thrift')
- *         }
+ *         include = fileTree('idl')
+ *         android = true
+ *         jackson = false
  *     }
  * }
  */

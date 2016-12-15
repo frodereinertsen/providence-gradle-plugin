@@ -23,11 +23,13 @@ package net.morimekta.providence.gradle
  * Plugin definition for the providence gradle plugin.
  *
  * providence {
- *     include {
- *         dir('idl')
- *     }
- *     input {
- *         files('src/main/providence/*.thrift')
+ *     main {
+ *         input = fileTree('src/main/android') {
+ *             include '*.thrift'
+ *         }
+ *         include = fileTree('idl')
+ *         android = true
+ *         jackson = false
  *     }
  * }
  */

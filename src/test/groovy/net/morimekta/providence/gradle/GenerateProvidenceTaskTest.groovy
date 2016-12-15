@@ -123,8 +123,9 @@ dependencies {
 
 providence {
     main {
-        input = fileTree('src/main/android')
-        input.include '*.thrift'
+        input = fileTree('src/main/android') {
+            include '*.thrift'
+        }
         android = true
     }
 }
