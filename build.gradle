@@ -2,7 +2,7 @@ group 'net.morimekta.providence.gradle'
 
 // Keep the version at the last *deployed* providence version, and use the
 // -PprovidenceVersion=... if a different version should be built for.
-version '0.3.0'
+version '0.3.1'
 if (project.hasProperty('providenceVersion')) {
     version = project.providenceVersion
 }
