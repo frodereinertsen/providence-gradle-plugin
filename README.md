@@ -38,7 +38,8 @@ providence {
         input = fileTree('idl') {
             includes 'github.com/morimekta/providence/**/*.thrift'
         }
-        imports = fileTree('idl') {
+        // Non compiled but included program files.
+        include = fileTree('idl') {
             includes '**/*.thrift'
             excludes 'github.com/morimekta/providence/**/*.thrift'
         }
