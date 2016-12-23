@@ -1,6 +1,8 @@
 Providence Gradle Plugin
 ========================
 
+[![build status](https://travis-ci.org/morimekta/providence-gradle-plugin.svg?branch=master)](https://travis-ci.org/morimekta/providence-gradle-plugin)
+
 A gradle plugin for generating providence serialization models. To enable
 the providence plugin, use the plugin with the **same version** as the
 providence release you are using.
@@ -9,7 +11,7 @@ Note that the plugin requires the `java` plugin to be applied, and must
 be applied **after** the java plugin. See example below to ensure that.
 
 ```groovy
-var providence_version = '0.3.1'
+var providence_version = '0.3.2'
 
 plugins {
     id "net.morimekta.providence.gradle" version "${providence_version}" apply false
