@@ -163,9 +163,10 @@ public class Test {
     void testGenerateTestProvidence() {
         buildFile << """
 plugins {
-    id 'org.gradle.java'
     id 'net.morimekta.providence.gradle'
 }
+
+apply plugin: 'java'
 
 repositories {
     mavenLocal()
