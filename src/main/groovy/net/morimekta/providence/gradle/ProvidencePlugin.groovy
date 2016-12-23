@@ -29,6 +29,7 @@ import org.gradle.api.Project
 class ProvidencePlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
+        project.plugins.apply('java')
         project.extensions.create('providence', ProvidenceExtension)
         project.task(type: GenerateProvidenceTask, "generateProvidence")
         project.task(type: GenerateTestProvidenceTask, "generateTestProvidence")

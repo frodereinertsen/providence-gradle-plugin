@@ -107,7 +107,6 @@ public class Test {
     void testGenerateProvidenceWithParams() {
         buildFile << """
 plugins {
-    id 'org.gradle.java'
     id 'net.morimekta.providence.gradle'
 }
 
