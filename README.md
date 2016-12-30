@@ -11,7 +11,7 @@ Note that the plugin requires the `java` plugin to be applied, and must
 be applied **after** the java plugin. See example below to ensure that.
 
 ```groovy
-var providence_version = '0.3.3'
+var providence_version = '0.3.4'
 
 plugins {
     id "net.morimekta.providence.gradle" version "${providence_version}" apply false

@@ -1,12 +1,5 @@
 group 'net.morimekta.providence.gradle'
 
-// Keep the version at the last *deployed* providence version, and use the
-// -PprovidenceVersion=... if a different version should be built for.
-version '0.3.3'
-if (project.hasProperty('providenceVersion')) {
-    version = project.providenceVersion
-}
-
 repositories {
     mavenLocal()
     mavenCentral()
@@ -33,7 +26,9 @@ apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
-def providence_version = version
+// Keep the version at the last *deployed* providence version, and use the
+// -PprovidenceVersion=... if a different version should be built for.
+def providence_version = project.property('providenceVersion')
 
 // Write the plugin's classpath to a file to share with the tests
 task createClasspathManifest {
