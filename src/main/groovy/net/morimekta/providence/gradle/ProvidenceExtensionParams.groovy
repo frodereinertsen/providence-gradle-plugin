@@ -20,11 +20,13 @@
  */
 package net.morimekta.providence.gradle
 
+import net.morimekta.providence.generator.format.java.JavaOptions
 import org.gradle.api.file.FileTree
 
 /**
  * Plugin definition for a specific task for the providence gradle plugin.
  *
+ * <pre>{@code
  * providence {
  *     main {
  *         input = fileTree('src/main/android') {
@@ -33,12 +35,19 @@ import org.gradle.api.file.FileTree
  *         include = fileTree('idl')
  *         android = true
  *         jackson = false
+ *         rw_binary = true
  *     }
  * }
+ * }</pre>
  */
-class ProvidenceExtensionParams {
-    FileTree include   = null
+class ProvidenceExtensionParams extends JavaOptions {
+    /**
+     * Input files to be generated from
+     */
     FileTree input     = null
-    boolean  android   = false
-    boolean  jackson   = false
+
+    /**
+     * Files to be included from the source thrift, but not be generated.
+     */
+    FileTree include   = null
 }

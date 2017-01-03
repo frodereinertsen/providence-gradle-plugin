@@ -21,7 +21,6 @@
 package net.morimekta.providence.gradle
 
 import net.morimekta.providence.generator.format.java.JavaGenerator
-import net.morimekta.providence.generator.format.java.JavaOptions
 import net.morimekta.providence.reflect.TypeLoader
 import net.morimekta.providence.reflect.parser.ThriftProgramParser
 import net.morimekta.providence.reflect.util.ReflectionUtils
@@ -31,15 +30,6 @@ import org.gradle.api.file.FileTree
 
 /**
  * Plugin definition for the providence gradle plugin.
- *
- * generateProvidence {
- *     include {
- *         dir('idl')
- *     }
- *     input {
- *         files('src/main/providence/*.thrift')
- *     }
- * }
  */
 abstract class BaseGenerateProvidenceTask extends DefaultTask {
     protected FileTree _defaultInput
@@ -58,13 +48,6 @@ abstract class BaseGenerateProvidenceTask extends DefaultTask {
             return _defaultInput
         }
         getExtension().input
-    }
-
-    JavaOptions getOptions() {
-        JavaOptions options = new JavaOptions()
-        options.android = getExtension().android
-        options.jackson = getExtension().jackson
-        return options
     }
 
     BaseGenerateProvidenceTask(boolean _testing) {
@@ -88,7 +71,7 @@ abstract class BaseGenerateProvidenceTask extends DefaultTask {
             def manager = new GradleOutputFileManager(self.project, self.outputs, _testing)
             def parser = new ThriftProgramParser()
             def loader = new TypeLoader(includes, parser)
-            def generator = new JavaGenerator(manager, loader.registry, self.getOptions())
+            def generator = new JavaGenerator(manager, loader.registry, self.getExtension())
 
             files.each { file ->
                 if (ReflectionUtils.isThriftFile(file.name)) {
